@@ -1,38 +1,29 @@
 package com.smart.mvc.interceptor.mybatis;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
+import com.smart.mvc.model.Pagination;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smart.mvc.model.Pagination;
+import java.sql.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Mybatis - 分页拦截器
  * 
  * @author Joe
  */
-@Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class }),
+@Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class,Integer.class }),
 		@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
 public class PaginationInterceptor implements Interceptor {
 	
@@ -145,7 +136,7 @@ public class PaginationInterceptor implements Interceptor {
 	 * @param connection
 	 * @param mappedStatement
 	 * @param boundSql
-	 * @param page
+	 * @param pagination
 	 */
 	private void setPageParameter(String sql, Connection connection, MappedStatement mappedStatement,
 			BoundSql boundSql, Pagination<?> pagination) {

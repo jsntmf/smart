@@ -115,8 +115,8 @@
 		
 		<!-- Swagger API文档 -->
 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
 		</dependency>
 	</dependencies>
 </project>
